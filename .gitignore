@@ -4,3 +4,7 @@ pkg
 *.tmproj
 tmp/**/*
 tmp/*
+*.gem
+.bundle
+Gemfile.lock
+.rvmrc
