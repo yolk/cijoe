@@ -4,8 +4,6 @@ require 'json'
 
 class CIJoe
   class Server < Sinatra::Base
-    attr_reader :joe
-
     dir = File.dirname(File.expand_path(__FILE__))
 
     set :views,  "#{dir}/views"
@@ -79,7 +77,18 @@ class CIJoe
     def initialize(*args)
       super
       check_project
-      @joe = CIJoe.new(settings.project_path)
+    end
+
+    def joe
+      self.class.joe
+    end
+
+    def self.joe
+      @joe ||= CIJoe.new(settings.project_path)
+    end
+
+    def self.joe=(joe)
+      @joe = joe
     end
 
     def self.start(host, port, project_path)

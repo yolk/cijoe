@@ -9,20 +9,22 @@ class TestCIJoeServer < Test::Unit::TestCase
     attr_writer :current_build, :last_build
   end
 
-  attr_accessor :app
+  def app
+    CIJoe::Server
+  end
 
   def setup
-    @app = CIJoe::Server.new
-    joe = @app.joe
+    app.joe = CIJoe.new(app.settings.project_path)
+    joe = app.joe
     
     # make Build#restore a no-op so we don't overwrite our current/last
     # build attributes set from tests.
     def joe.restore
     end
-    
+
     # make CIJoe#build! and CIJoe#git_update a no-op so we don't overwrite our local changes
     # or local commits nor should we run tests.
-    def joe.build!
+    def joe.build!(branch=nil)
     end
   end
 
@@ -83,9 +85,8 @@ class TestCIJoeServer < Test::Unit::TestCase
   end
 
   def test_post_builds_specific_branch 
-    app.joe.expects(:build!).with("branchname")
+    app.joe.expects(:build).with("branchname")
     post "/?branch=branchname", :payload => {"ref" => "refs/heads/master"}.to_json
-    assert app.joe.building?
     assert_equal 302, last_response.status
   end
 

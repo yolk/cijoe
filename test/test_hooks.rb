@@ -25,7 +25,7 @@ class CIJoe
   
   def path_in_project(f)
     return '/tmp/test' if $hook_override
-    orig_path_in_project
+    orig_path_in_project(f)
   end
   
   def git_user_and_project
