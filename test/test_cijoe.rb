@@ -8,10 +8,10 @@ class TestCIJoe < Test::Unit::TestCase
   end
   
   def test_return_value_of_config
-    assert_equal `git config blame`.chomp, CIJoe::Config.new('blame').to_s
+    assert_equal `git config blame.yourself`.chomp, CIJoe::Config.new(:blame).yourself.to_s
   end
   
   def test_return_empty_string_when_config_does_not_exist
-    assert_equal '', CIJoe::Config.new('invalid').to_s
+    assert_equal '', CIJoe::Config.invalid.invalid.to_s
   end
 end
