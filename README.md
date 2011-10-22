@@ -73,26 +73,6 @@ Joe will save requests while another build runs. If more than one push
 hits joe, he just picks the last after finishing the prior.
 
 
-Campfire
--------------
-
-Campfire notification is included, because it's what we use. Want Joe
-notify your Campfire? Put this in your repo's `.git/config`:
-
-    [campfire]
-    	token = abcd1234
-    	subdomain = whatever
-    	room = Awesomeness
-    	ssl = false
-
-Or do it the old fashion way:
-
-    $ cd yourrepo
-    $ git config --add campfire.token abcd1234
-    $ git config --add campfire.subdomain github
-    etc.
-
-
 Checkin' Status
 ----------------------
 

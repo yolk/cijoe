@@ -7,7 +7,6 @@
 #
 # It only remembers the last build.
 #
-# It only notifies to Campfire.
 #
 # It's a RAH (Real American Hero).
 #
@@ -17,20 +16,17 @@ require 'cijoe/version'
 require 'cijoe/config'
 require 'cijoe/commit'
 require 'cijoe/build'
-require 'cijoe/campfire'
 require 'cijoe/server'
 require 'cijoe/queue'
 
 class CIJoe
-  attr_reader :user, :project, :url, :current_build, :last_build, :campfire
+  attr_reader :user, :project, :url, :current_build, :last_build
 
   def initialize(project_path)
     @project_path = File.expand_path(project_path)
 
     @user, @project = git_user_and_project
     @url = "http://github.com/#{@user}/#{@project}"
-
-    @campfire = CIJoe::Campfire.new(project_path)
 
     @last_build = nil
     @current_build = nil
@@ -75,7 +71,6 @@ class CIJoe
     @current_build = nil
     write_build 'current', @current_build
     write_build 'last', @last_build
-    @campfire.notify(@last_build) if @campfire.valid?
 
     build(@queue.next_branch_to_build) if @queue.waiting?
   end
